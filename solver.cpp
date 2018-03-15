@@ -1,6 +1,28 @@
 #include <iostream>
 using namespace std;
 int tbl[10][10][10];
+int ans[10][10]; //actually can use only char but I use int for easy to get input
+void printAns()
+{
+     //Print ans
+    for(int i=1;i<10;i++)
+    {
+        for(int j=1;j<10;j++)
+        {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
+    //Print tbl
+    for(int i=1;i<10;i++)
+    {
+        for(int j=1;j<10;j++)
+        {
+            cout << tbl[i][j][0] << " ";
+        }
+        cout << endl;
+    }
+}
 int grouping(int c)
 {
     if(c<=3)
@@ -25,7 +47,6 @@ void cut(int x,int y,int a)
 }
 int main()
 {
-    int ans[10][10][1]; //actually can use only char but I use int for easy to get input
     for(int i=1;i<10;i++)
     {
         for(int j=1;j<10;j++)
@@ -39,10 +60,11 @@ int main()
     {
         for(int j=1;j<10;j++)
         {
-            cin >> ans[i][j][0];
+            cin >> ans[i][j];
+            if(ans[i][j]!=0)
+                cut(i,j,ans[i][j]);
         }
     }
-
-
+    printAns();
     return 0;
 }
