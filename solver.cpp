@@ -68,8 +68,32 @@ void cut(int x,int y,int a)
         }
     }
 }
+int find_min(int c)
+{
+    for(int i=1;i<10;i++)
+    {
+        for(int j=1;j<10;j++)
+        {
+            if (tbl[i][j][0] == 1)
+            {
+                for(int k=1;k<10;k++)
+                {
+                    if(tbl[i][j][k]==1)
+                    {
+                        ans[i][j] = k;
+                        cut(i,j,k);
+                        c--;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return c;
+}
 int main()
 {
+    int count = 81;
     for(int i=1;i<10;i++)
     {
         for(int j=1;j<10;j++)
@@ -79,15 +103,21 @@ int main()
                 tbl[i][j][k] = 1;
         }
     }
-    //printAns();
     for(int i=1;i<10;i++)
     {
         for(int j=1;j<10;j++)
         {
             cin >> ans[i][j];
             if(ans[i][j]!=0)
+            {
                 cut(i,j,ans[i][j]);
+                count--;
+            }
         }
+    }
+    while(count!=0)
+    {
+        count = find_min(count);
     }
     printAns();
     return 0;
