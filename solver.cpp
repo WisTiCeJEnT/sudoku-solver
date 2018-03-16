@@ -9,7 +9,7 @@ void printAns()
     for(int i=1;i<10;i++)
     {
         if(i==4 || i==7)
-            cout << "- - - - - - - - - - -" << endl;
+            cout << "- - - + - - - + - - -" << endl;
         for(int j=1;j<10;j++)
         {
             if(j==4 || j==7)
@@ -121,7 +121,13 @@ int main()
     }
     while(count!=0)
     {
+        int tmp = count;
         count = find_min(count);
+        if(tmp==count)
+        {
+            cout << "I'm out T^T" << endl;
+            break;
+        }
     }
     printAns();
     return 0;
