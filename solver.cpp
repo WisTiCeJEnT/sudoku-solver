@@ -8,8 +8,12 @@ void printAns()
     cout << "Answer table" << endl;
     for(int i=1;i<10;i++)
     {
+        if(i==4 || i==7)
+            cout << "- - - - - - - - - - -" << endl;
         for(int j=1;j<10;j++)
         {
+            if(j==4 || j==7)
+                cout << "| ";
             cout << ans[i][j] << " ";
         }
         cout << endl;
