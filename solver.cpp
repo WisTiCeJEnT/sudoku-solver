@@ -2,6 +2,8 @@
 using namespace std;
 int tbl[10][10][10];
 int ans[10][10]; //actually can use only char but I use int for easy to get input
+
+int col[10][10];
 void printAns()
 {
      //Print ans
@@ -43,17 +45,20 @@ void cut(int x,int y,int a)
     tbl[x][y][0] = 0;
     for(int i=1;i<10;i++)
     {
-        if (tbl[i][y][a] != 0 && tbl[i][y][0] != 0)
+        if (tbl[i][y][a] != 0)
         {
-            tbl[i][y][0]--;
+            if(tbl[i][y][0] != 0)
+                tbl[i][y][0]--;
             tbl[i][y][a] = 0;
+            //col[i][a]--;
         }
     }
     for(int i=1;i<10;i++)
     {
-        if(tbl[x][i][a] != 0 && tbl[x][i][0] != 0)
+        if(tbl[x][i][a] != 0)
         {
-            tbl[x][i][0]--;
+            if(tbl[x][i][0] != 0)
+                tbl[x][i][0]--;
             tbl[x][i][a] = 0;
         }
     }
@@ -64,9 +69,10 @@ void cut(int x,int y,int a)
     {
         for(int jj=j;jj<=j+2;jj++)
         {
-            if(tbl[ii][jj][a] != 0 && tbl[ii][jj][0] != 0)
+            if(tbl[ii][jj][a] != 0)
             {
-                tbl[ii][jj][0]--;
+                if(tbl[ii][jj][0] != 0)
+                    tbl[ii][jj][0]--;
                 tbl[ii][jj][a] = 0;
             }
         }
@@ -95,6 +101,27 @@ int find_min(int c)
     }
     return c;
 }
+int cSol(int c) //countSolution
+{
+    for(int i=1;i<10;i++)
+    {
+        for(int j=1;j<10;j++)
+        {
+            for(int k=1;k<10;k++)
+            {
+                col[j][k] += tbl[i][j][k];
+            }
+        }
+    }
+    for(int i=1;i<10;i++)
+    {
+        for(int j=1;j<10;j++)
+        {
+            cout << col[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
 int main()
 {
     int count = 81;
@@ -102,9 +129,12 @@ int main()
     {
         for(int j=1;j<10;j++)
         {
+            col[i][j] = 0;
             tbl[i][j][0] = 9;
             for(int k=1;k<10;k++)
+            {
                 tbl[i][j][k] = 1;
+            }
         }
     }
     for(int i=1;i<10;i++)
@@ -130,5 +160,18 @@ int main()
         }
     }
     printAns();
+    for(int i=1;i<10;i++)
+    {
+        for(int j=1;j<10;j++)
+        {
+            cout << i << " " << j << " > ";
+            for(int k=1;k<10;k++)
+            {
+                cout << tbl[i][j][k];
+            }
+            cout << endl;
+        }
+    }
+    cSol(count);
     return 0;
 }
