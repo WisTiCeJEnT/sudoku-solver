@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 int tbl[10][10][10];
-int ans[10][10]; //actually can use only char but I use int for easy to get input
+int ans[10][10]; //actually use only char is fine, but I use int for easy to get input
 
 int col[10][10];
 void printAns()
@@ -42,6 +42,7 @@ int grouping(int c)
 }
 void cut(int x,int y,int a)
 {
+    ans[x][y] = a;
     tbl[x][y][0] = 0;
     for(int i=1;i<10;i++)
     {
@@ -90,7 +91,6 @@ int find_min(int c)
                 {
                     if(tbl[i][j][k]==1)
                     {
-                        ans[i][j] = k;
                         cut(i,j,k);
                         c--;
                         break;
