@@ -101,8 +101,11 @@ int find_min(int c)
     }
     return c;
 }
-int cSol(int c) //countSolution
+void cSol(int c) //countSolution
 {
+    for(int i=1;i<10;i++)
+        for(int j=1;j<10;j++)
+            col[i][j] = 0;
     for(int i=1;i<10;i++)
     {
         for(int j=1;j<10;j++)
@@ -129,7 +132,7 @@ int main()
     {
         for(int j=1;j<10;j++)
         {
-            col[i][j] = 0;
+            //col[i][j] = 0;
             tbl[i][j][0] = 9;
             for(int k=1;k<10;k++)
             {
@@ -155,11 +158,34 @@ int main()
         count = find_min(count);
         if(tmp==count)
         {
-            cout << "I'm out T^T" << endl;
-            break;
+            cSol(count);
+            for(int col_ind=1;col_ind<10;col_ind++)
+            {
+                for(int num_ind=1;num_ind<10;num_ind++)
+                {
+                    if(col[col_ind][num_ind] == 1)
+                    {
+                        for(int row_ind=1;row_ind<10;row_ind++)
+                        {
+                            if(tbl[row_ind][col_ind][num_ind] == 1)
+                            {
+                                count--;
+                                cut(row_ind,col_ind,num_ind);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if(tmp==count)
+            {
+                cout << "I'm out T^T" << endl;
+                break;
+            }
         }
     }
     printAns();
+    /*
     for(int i=1;i<10;i++)
     {
         for(int j=1;j<10;j++)
@@ -172,6 +198,6 @@ int main()
             cout << endl;
         }
     }
-    cSol(count);
+    */
     return 0;
 }
