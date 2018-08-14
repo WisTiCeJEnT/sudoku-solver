@@ -4,6 +4,7 @@ int tbl[10][10][10];
 int ans[10][10]; //actually use only char is fine, but I use int for easy to get input
 
 int col[10][10];
+int row[10][10];
 void printAns()
 {
      //Print ans
@@ -101,8 +102,9 @@ int find_min(int c)
     }
     return c;
 }
-void cSol(int c) //countSolution
+int cSol(int c) //colSolving
 {
+    int found = 0;
     for(int i=1;i<10;i++)
         for(int j=1;j<10;j++)
             col[i][j] = 0;
@@ -116,6 +118,25 @@ void cSol(int c) //countSolution
             }
         }
     }
+    for(int col_ind=1;col_ind<10;col_ind++)
+    {
+        for(int num_ind=1;num_ind<10;num_ind++)
+        {
+            if(col[col_ind][num_ind] == 1)
+            {
+                for(int row_ind=1;row_ind<10;row_ind++)
+                {
+                    if(tbl[row_ind][col_ind][num_ind] == 1)
+                    {
+                        found++;
+                        cut(row_ind,col_ind,num_ind);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    /*
     for(int i=1;i<10;i++)
     {
         for(int j=1;j<10;j++)
@@ -124,6 +145,9 @@ void cSol(int c) //countSolution
         }
         cout << endl;
     }
+    cout << endl;
+    */
+    return found;
 }
 int main()
 {
@@ -158,25 +182,8 @@ int main()
         count = find_min(count);
         if(tmp==count)
         {
-            cSol(count);
-            for(int col_ind=1;col_ind<10;col_ind++)
-            {
-                for(int num_ind=1;num_ind<10;num_ind++)
-                {
-                    if(col[col_ind][num_ind] == 1)
-                    {
-                        for(int row_ind=1;row_ind<10;row_ind++)
-                        {
-                            if(tbl[row_ind][col_ind][num_ind] == 1)
-                            {
-                                count--;
-                                cut(row_ind,col_ind,num_ind);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            count += cSol(count);
+            
             if(tmp==count)
             {
                 cout << "I'm out T^T" << endl;
