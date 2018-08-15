@@ -44,7 +44,8 @@ int grouping(int c)
 void cut(int x,int y,int a)
 {
     ans[x][y] = a;
-    tbl[x][y][0] = 0;
+    for(int i=0;i<10;i++)
+        tbl[x][y][i] = 0;
     for(int i=1;i<10;i++)
     {
         if (tbl[i][y][a] != 0)
@@ -104,7 +105,6 @@ int find_min(int c)
 }
 int cSol(int c) //colSolving
 {
-    int found = 0;
     for(int i=1;i<10;i++)
         for(int j=1;j<10;j++)
             col[i][j] = 0;
@@ -128,7 +128,7 @@ int cSol(int c) //colSolving
                 {
                     if(tbl[row_ind][col_ind][num_ind] == 1)
                     {
-                        found++;
+                        c--;
                         cut(row_ind,col_ind,num_ind);
                         break;
                     }
@@ -147,8 +147,56 @@ int cSol(int c) //colSolving
     }
     cout << endl;
     */
-    return found;
+    return c;
 }
+int rSol(int c) //rowSolving
+{
+    for(int i=1;i<10;i++)
+        for(int j=1;j<10;j++)
+            row[i][j] = 0;
+    for(int i=1;i<10;i++)
+    {
+        for(int j=1;j<10;j++)
+        {
+            for(int k=1;k<10;k++)
+            {
+                row[i][j] += tbl[i][k][j];
+            }
+        }
+    }
+    for(int row_ind=1;row_ind<10;row_ind++)
+    {
+        for(int num_ind=1;num_ind<10;num_ind++)
+        {
+            if(row[row_ind][num_ind] == 1)
+            {
+                for(int col_ind=1;col_ind<10;col_ind++)
+                {
+                    if(tbl[row_ind][col_ind][num_ind] == 1)
+                    {
+                        c--;
+                        cut(row_ind,col_ind,num_ind);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    /*
+    cout << "row sol debug" << endl;
+    for(int i=1;i<10;i++)
+    {
+        for(int j=1;j<10;j++)
+        {
+            cout << col[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+    */
+    return c;
+}
+//======================== Main ========================
 int main()
 {
     int count = 81;
@@ -182,8 +230,8 @@ int main()
         count = find_min(count);
         if(tmp==count)
         {
-            count += cSol(count);
-            
+            count = cSol(count);
+            count = rSol(count);
             if(tmp==count)
             {
                 cout << "I'm out T^T" << endl;
@@ -191,6 +239,7 @@ int main()
             }
         }
     }
+    cout << count << endl;
     printAns();
     /*
     for(int i=1;i<10;i++)
